@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.io.File; 
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.io.PrintWriter; 
 
 /**
  * Manages the inventory of RPG Loot.
@@ -15,26 +16,26 @@ public class LootManager {
         this.inventory = new ArrayList<>();
     }
 
-    // public static LootManager load(String filePath) throws FileNotFoundException {
-    //     LootManager lootManager = new LootManager();
+    public static LootManager load(String filePath) throws FileNotFoundException {
+        LootManager lootManager = new LootManager();
 
-    //     Scanner scanner = new Scanner(new File(filePath));
+        Scanner scanner = new Scanner(new File(filePath));
 
-    //     scanner.nextLine(); 
+        scanner.nextLine(); 
 
-    //     while (scanner.hasNextLine()) {
-    //         String line = scanner.nextLine();
+        while (scanner.hasNextLine()) {
+            String line = scanner.nextLine();
 
-    //         String[] content = line.split(",");
+            String[] content = line.split(",");
 
-    //         Loot loot = LootFactory.create(content);
+            Loot loot = LootFactory.create(content);
 
-    //         lootManager.addLoot(loot); 
-    //     }
+            lootManager.add(loot); 
+        }
 
-    //     scanner.close();
-    //     return lootManager; 
-    // }
+        scanner.close();
+        return lootManager; 
+    }
 
     /**
      * Polymorphically displays all items in the inventory.
@@ -50,12 +51,17 @@ public class LootManager {
         System.out.println();
     }
 
-    public void save(String filePath) {
+    public void save(String filePath) throws FileNotFoundException {
+        PrintWriter fileWriter = new PrintWriter(new File(filePath));
 
+        for (Loot loot : inventory) {
+            fileWriter.println(loot.asCsvRecord());
+        }
+        fileWriter.close(); 
     }
 
     public void add(Loot loot) {
-
+        inventory.add(loot); 
     }
 }
 

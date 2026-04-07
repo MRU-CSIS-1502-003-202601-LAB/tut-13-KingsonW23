@@ -1,20 +1,25 @@
-// package main;
+package main;
 
-// public class LootFactory {
+public class LootFactory {
     
-//     public static Loot create(String[] content) {
+    public static Loot create(String[] csvRecord) {
 
-//         String type = content[0];
-//         String name = content[1];
-//         String rarity = content[2];
-//         int damage = Integer.ParseInt(content[3]); 
+        String typeField = csvRecord[0].toUpperCase();
 
-//         if (type.equals("Weapon")) {
-//             return new Weapon(name, rarity, damage);
-//         }
+        String name = csvRecord[1];
+        String rarity = csvRecord[2];
+        int value = Integer.parseInt(csvRecord[3]); 
 
-//         if (type.equals("Consumable")) {
-//             return new Consumable(name, rarity, restoreAmount); 
-//         }
-//     }
-// }
+        switch (typeField) {
+
+            case "WEAPON":
+                return new Weapon(name, rarity, value);
+
+            case "CONSUMABLE":
+                return new Consumable(name, rarity, value);
+
+            default:
+                return null; 
+        }
+    }
+}
